@@ -517,3 +517,5 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   .booking__title { text-align: center; }
   .booking__form { grid-template-columns: 1fr; padding: 28px 22px; }
 }
+/* Скрывать фолбэк формы, пока не отправлена заявка (display:flex перебивает атрибут hidden) */
+.form-fallback[hidden] { display: none; }
