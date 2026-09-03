@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+_psd_*.txt
+_psd_analyze*.py
+_design_preview.png
+_so_*.png
+preview/
+node_modules/
