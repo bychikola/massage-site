@@ -529,3 +529,13 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   .btn, .card, .social, a.contact-card { transition: none; }
   .btn:hover, .card:hover, .social:hover, a.contact-card:hover { transform: none; }
 }
+
+/* ===== Фокус-кольца по поверхностям (видимость на золотом/бирюзовом) ===== */
+:root { --focus: var(--teal-deep); }
+:focus-visible { outline-color: var(--teal-deep); }
+.hero .btn:focus-visible { outline-color: var(--white); }
+.footer :focus-visible { outline-color: var(--gold-text); }
+
+/* Кнопка «Скопировать текст» на белой карточке: тёмный контур вместо золотого (контраст AA) */
+.form-fallback .btn--outline { color: var(--teal-deep); border-color: var(--teal-deep); }
+.form-fallback .btn--outline:hover { background: var(--teal-deep); border-color: var(--teal-deep); color: var(--white); }

@@ -1,0 +1,7 @@
+{
+  "name": "massage-site",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/booking.test.mjs"
+  }
+}

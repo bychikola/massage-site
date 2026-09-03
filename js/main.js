@@ -4,28 +4,37 @@
   /* ===== Мобильное меню ===== */
   var burger = document.getElementById("burger");
   var nav = document.getElementById("nav");
+  nav.inert = true; /* закрытое меню выпадает из фокус-навигации */
 
-  burger.addEventListener("click", function () {
-    var open = nav.classList.toggle("nav--open");
+  function setMenu(open) {
+    nav.classList.toggle("nav--open", open);
+    nav.inert = !open;
     burger.classList.toggle("burger--open", open);
     burger.setAttribute("aria-expanded", String(open));
+  }
+
+  burger.addEventListener("click", function () {
+    var willOpen = !nav.classList.contains("nav--open");
+    setMenu(willOpen);
+    if (willOpen) {
+      var firstLink = nav.querySelector("a");
+      if (firstLink) { firstLink.focus(); }
+    }
   });
 
   /* Закрывать меню после клика по ссылке */
   nav.addEventListener("click", function (e) {
     if (e.target.closest("a")) {
-      nav.classList.remove("nav--open");
-      burger.classList.remove("burger--open");
-      burger.setAttribute("aria-expanded", "false");
+      setMenu(false);
+      burger.focus();
     }
   });
 
   /* Закрывать меню по Escape */
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      nav.classList.remove("nav--open");
-      burger.classList.remove("burger--open");
-      burger.setAttribute("aria-expanded", "false");
+    if (e.key === "Escape" && nav.classList.contains("nav--open")) {
+      setMenu(false);
+      burger.focus();
     }
   });
 

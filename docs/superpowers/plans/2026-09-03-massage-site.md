@@ -245,7 +245,7 @@ test("buildWhatsAppLink: корректная wa.me-ссылка с закоди
 
 - [ ] **Step 2: Запустить тесты — убедиться, что падают**
 
-Run: `node --test tests/`
+Run: `node --test`
 Expected: FAIL (`Cannot find module '../js/booking.js'`)
 
 - [ ] **Step 3: Реализация js/booking.js**
@@ -306,7 +306,7 @@ Expected: FAIL (`Cannot find module '../js/booking.js'`)
 
 - [ ] **Step 4: Запустить тесты — должны пройти**
 
-Run: `node --test tests/`
+Run: `node --test`
 Expected: PASS, 5 тестов зелёные
 
 - [ ] **Step 5: Commit**
@@ -1523,7 +1523,7 @@ git commit -m "feat: booking form that opens WhatsApp with prefilled message"
 
 - [ ] **Step 4: Юнит-тесты всё ещё зелёные**
 
-Run: `node --test tests/`
+Run: `node --test`
 Expected: PASS, 5 тестов.
 
 - [ ] **Step 5: Финальная приёмка по критериям спеки**
