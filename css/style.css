@@ -280,3 +280,60 @@ a { color: inherit; }
   .hero__inner { grid-template-columns: 1fr; gap: 32px; }
   .hero__leaf { width: 70vw; left: auto; right: -80px; }
 }
+
+/* ===== Услуги ===== */
+.services { background: var(--cream); }
+.services__group { margin-bottom: 64px; }
+.services__group:last-child { margin-bottom: 0; }
+.services__heading {
+  font-family: var(--font-title);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--teal);
+  text-align: center;
+  margin-bottom: 32px;
+}
+.services__heading::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 2px;
+  background: var(--gold);
+  margin: 14px auto 0;
+}
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+.card {
+  background: var(--white);
+  border: 1px solid rgba(4, 78, 71, .08);
+  border-radius: var(--radius-sm);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+  transition: transform .25s, box-shadow .25s;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.card__name {
+  font-family: var(--font-title);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--teal);
+}
+.card__desc { font-size: 14px; opacity: .8; flex: 1; }
+.card__price {
+  font-family: var(--font-title);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold-deep);
+}
+.card__btn { align-self: flex-start; padding: 12px 26px; font-size: 12px; }
+@media (max-width: 600px) {
+  .services__grid { grid-template-columns: 1fr; }
+}
