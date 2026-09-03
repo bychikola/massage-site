@@ -48,4 +48,77 @@
   footerPhone.textContent = C.phoneDisplay;
   document.getElementById("footerAddress").textContent = C.address;
   document.getElementById("footerYear").textContent = String(new Date().getFullYear());
+
+  /* ===== Форма записи → WhatsApp ===== */
+  var form = document.getElementById("bookingForm");
+  var formError = document.getElementById("formError");
+  var formFallback = document.getElementById("formFallback");
+  var formMessage = document.getElementById("formMessage");
+  var copyBtn = document.getElementById("copyBtn");
+  var copyOk = document.getElementById("copyOk");
+
+  /* Быстрые контакты рядом с формой */
+  document.getElementById("quickCall").href = telHref;
+  document.getElementById("quickWhatsApp").href = waHref;
+
+  function showError(text) {
+    formError.textContent = text;
+    formError.hidden = false;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    formError.hidden = true;
+
+    var name = document.getElementById("bfName").value;
+    var phone = document.getElementById("bfPhone").value;
+    var service = document.getElementById("bfService").value;
+    var date = document.getElementById("bfDate").value;
+    var comment = document.getElementById("bfComment").value;
+
+    if (!name.trim()) {
+      showError("Пожалуйста, укажите ваше имя.");
+      document.getElementById("bfName").focus();
+      return;
+    }
+    if (!Booking.isValidPhone(phone)) {
+      showError("Пожалуйста, укажите корректный телефон (10–15 цифр).");
+      document.getElementById("bfPhone").focus();
+      return;
+    }
+
+    var message = Booking.buildBookingMessage({
+      name: name,
+      phone: phone,
+      service: service || "не выбрана",
+      date: date,
+      comment: comment
+    });
+
+    formMessage.textContent = message;
+    formFallback.hidden = false;
+    copyOk.hidden = true;
+
+    var win = window.open(Booking.buildWhatsAppLink(message), "_blank", "noopener");
+    if (!win) {
+      showError("Браузер заблокировал всплывающее окно — скопируйте текст ниже.");
+    }
+  });
+
+  copyBtn.addEventListener("click", function () {
+    var text = formMessage.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        copyOk.hidden = false;
+      });
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      copyOk.hidden = false;
+    }
+  });
 })();

@@ -174,7 +174,64 @@
       </div>
     </section>
     <!-- Task 7 -->
-    <section class="booking section" id="booking"></section>
+    <section class="booking section" id="booking">
+      <div class="container booking__inner">
+        <div class="booking__info">
+          <h2 class="section-title booking__title">Запись на сеанс</h2>
+          <p class="booking__text">
+            Заполните форму — я получу вашу заявку в WhatsApp и свяжусь с вами,
+            чтобы подтвердить время.
+          </p>
+          <div class="booking__quick">
+            <a class="btn btn--teal" id="quickCall" href="#">Позвонить</a>
+            <a class="btn btn--teal" id="quickWhatsApp" href="#" target="_blank" rel="noopener">Написать в WhatsApp</a>
+          </div>
+        </div>
+
+        <form class="booking__form" id="bookingForm" novalidate>
+          <div class="field">
+            <label class="field__label" for="bfName">Имя <span class="field__req" aria-hidden="true">*</span></label>
+            <input class="field__input" id="bfName" name="name" type="text" autocomplete="name" required placeholder="Как к вам обращаться">
+          </div>
+          <div class="field">
+            <label class="field__label" for="bfPhone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
+            <input class="field__input" id="bfPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+7 900 000-00-00">
+          </div>
+          <div class="field">
+            <label class="field__label" for="bfService">Услуга</label>
+            <select class="field__input" id="bfService" name="service">
+              <option value="">— выберите услугу —</option>
+              <option>Шейно-воротниковая зона</option>
+              <option>Спина от шейных позвонков до крестцов</option>
+              <option>Общий массаж (сеанс длится 2 часа)</option>
+              <option>Массаж рук</option>
+              <option>Массаж ног</option>
+              <option>Антицеллюлитный массаж (полный)</option>
+              <option>Антицеллюлитный массаж (бёдра, живот, ягодицы)</option>
+              <option>Массаж головы</option>
+              <option>Лифтинг-массаж лица</option>
+              <option>Скульптурный массаж лица</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field__label" for="bfDate">Дата и время</label>
+            <input class="field__input" id="bfDate" name="date" type="text" placeholder="Например: завтра после 18:00">
+          </div>
+          <div class="field field--wide">
+            <label class="field__label" for="bfComment">Комментарий</label>
+            <textarea class="field__input" id="bfComment" name="comment" rows="3" placeholder="Пожелания, особенности"></textarea>
+          </div>
+          <p class="form-error" id="formError" role="alert" hidden></p>
+          <button class="btn btn--fill booking__submit" type="submit">Отправить заявку в WhatsApp</button>
+          <div class="form-fallback" id="formFallback" hidden>
+            <p class="form-fallback__text">Если WhatsApp не открылся — скопируйте текст и отправьте его сами:</p>
+            <pre class="form-fallback__msg" id="formMessage"></pre>
+            <button class="btn btn--outline" id="copyBtn" type="button">Скопировать текст</button>
+            <span class="form-fallback__ok" id="copyOk" hidden>Текст скопирован</span>
+          </div>
+        </form>
+      </div>
+    </section>
     <!-- Task 6 -->
     <section class="contacts section" id="contacts">
       <div class="container">
