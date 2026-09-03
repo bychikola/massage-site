@@ -81,3 +81,105 @@ a { color: inherit; }
 
 /* ===== Фокус ===== */
 :focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 2px; }
+/* ===== Шапка ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--gold);
+  box-shadow: 0 2px 12px rgba(3, 54, 49, .12);
+}
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 14px;
+}
+.logo {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--teal-deep);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.logo__leaf {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  background: var(--teal);
+  border-radius: 50%;
+  position: relative;
+}
+.logo__leaf::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  background: var(--gold);
+  border-radius: 70% 0 70% 0;
+  transform: rotate(-20deg);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav__link {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--teal-deep);
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: border-color .25s;
+}
+.nav__link:hover { border-bottom-color: var(--teal); }
+.nav__cta { padding: 12px 24px; font-size: 13px; }
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.burger__line {
+  display: block;
+  height: 2px;
+  background: var(--teal-deep);
+  border-radius: 2px;
+  transition: transform .25s, opacity .25s;
+}
+.burger--open .burger__line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger--open .burger__line:nth-child(2) { opacity: 0; }
+.burger--open .burger__line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .burger { display: flex; }
+  .nav {
+    position: fixed;
+    inset: 0;
+    top: 72px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 32px 24px;
+    background: var(--gold);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+  }
+  .nav--open { transform: translateX(0); }
+  .nav__link { font-size: 16px; }
+  .nav__cta { margin-top: 8px; }
+}
