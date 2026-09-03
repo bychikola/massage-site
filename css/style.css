@@ -519,3 +519,13 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 }
 /* Скрывать фолбэк формы, пока не отправлена заявка (display:flex перебивает атрибут hidden) */
 .form-fallback[hidden] { display: none; }
+
+/* ===== Появление секций при скролле ===== */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn, .card, .social, a.contact-card { transition: none; }
+  .btn:hover, .card:hover, .social:hover, a.contact-card:hover { transform: none; }
+}
