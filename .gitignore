@@ -6,3 +6,7 @@ _design_preview.png
 _so_*.png
 preview/
 node_modules/
+
+# Двоичные исходники дизайна (не в git — большие бинарные файлы)
+5841158.psd
+5841159.jpg
