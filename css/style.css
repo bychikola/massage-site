@@ -337,3 +337,112 @@ a { color: inherit; }
 @media (max-width: 600px) {
   .services__grid { grid-template-columns: 1fr; }
 }
+
+/* ===== Обо мне ===== */
+.about { background: var(--teal); color: var(--white); }
+.about__inner {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  align-items: center;
+  gap: 56px;
+}
+.about__media {
+  padding: 16px;
+  background: var(--gold);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 420px;
+}
+.about__photo {
+  border-radius: calc(var(--radius) - 8px);
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.about__title { text-align: left; }
+.about__lead {
+  font-family: var(--font-script);
+  font-size: 30px;
+  color: var(--gold-text);
+  margin-bottom: 20px;
+}
+.about__text { opacity: .92; margin-bottom: 14px; max-width: 560px; }
+@media (max-width: 900px) {
+  .about__inner { grid-template-columns: 1fr; gap: 40px; }
+  .about__media { max-width: 320px; }
+  .about__title { text-align: center; }
+}
+
+/* ===== Контакты ===== */
+.contacts { background: var(--gold); }
+.contacts__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.contact-card {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 32px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-soft);
+  transition: transform .25s, box-shadow .25s;
+}
+a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.contact-card__icon { width: 34px; height: 34px; color: var(--teal); }
+.contact-card__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  opacity: .75;
+}
+.contact-card__value {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--teal);
+}
+.contacts__social {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+.social {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--gold);
+  transition: transform .25s, background-color .25s;
+}
+.social:hover { transform: translateY(-3px); background: var(--teal-deep); }
+.social svg { width: 24px; height: 24px; }
+@media (max-width: 760px) {
+  .contacts__grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Подвал ===== */
+.footer {
+  background: var(--teal-deep);
+  color: rgba(255, 255, 255, .85);
+  padding: 40px 0;
+  text-align: center;
+}
+.footer__inner { display: flex; flex-direction: column; gap: 10px; }
+.footer__brand { font-family: var(--font-title); font-size: 20px; letter-spacing: .06em; color: var(--gold-text); }
+.footer__contacts { font-size: 14px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.footer__contacts a { color: var(--gold-text); text-decoration: none; }
+.footer__contacts a:hover { text-decoration: underline; }
+.footer__copy { font-size: 12px; opacity: .65; }
