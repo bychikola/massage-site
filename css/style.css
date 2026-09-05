@@ -472,6 +472,12 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .field--wide { grid-column: 1 / -1; }
 .field__label { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--teal); }
 .field__req { color: var(--gold-deep); }
+.field__hint {
+  font-size: 14px;
+  color: var(--teal);
+  min-height: 1.2em;
+  margin-top: -2px;
+}
 .field__input {
   font-family: var(--font-body);
   font-size: 15px;

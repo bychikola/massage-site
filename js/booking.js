@@ -14,6 +14,30 @@
     vkUrl: "https://vk.com/"                   // ЗАМЕНИТЬ: ссылка VK
   };
 
+  /* Прайс для формы записи. Имя услуги должно ТОЧНО совпадать
+     с текстом опции <option> в index.html и с названием карточки в разделе «Услуги» —
+     чтобы Альбина правильно получала цену в WhatsApp. */
+  var SERVICE_PRICES = {
+    "Шейно-воротниковая зона": 800,
+    "Спина от шейных позвонков до крестцов": 1700,
+    "Общий массаж (сеанс длится 2 часа)": 2800,
+    "Массаж рук": 1200,
+    "Массаж ног": 1500,
+    "Антицеллюлитный массаж (полный)": 2500,
+    "Антицеллюлитный массаж (бёдра, живот, ягодицы)": 1800,
+    "Массаж головы": 800,
+    "Лифтинг-массаж лица": 900,
+    "Скульптурный массаж лица": 1200
+  };
+
+  function getServicePrice(serviceName) {
+    if (!serviceName) return null;
+    if (Object.prototype.hasOwnProperty.call(SERVICE_PRICES, serviceName)) {
+      return SERVICE_PRICES[serviceName];
+    }
+    return null;
+  }
+
   function isValidPhone(value) {
     var digits = String(value || "").replace(/\D/g, "");
     return digits.length >= 10 && digits.length <= 15;
@@ -23,7 +47,15 @@
     var lines = ["Здравствуйте! Хочу записаться на массаж."];
     lines.push("Имя: " + (fields.name || "").trim());
     lines.push("Телефон: " + (fields.phone || "").trim());
-    lines.push("Услуга: " + (fields.service || "").trim());
+    var serviceName = (fields.service || "").trim();
+    if (serviceName) {
+      var price = getServicePrice(serviceName);
+      if (price !== null) {
+        lines.push("Услуга: " + serviceName + " — " + price + " ₽");
+      } else {
+        lines.push("Услуга: " + serviceName);
+      }
+    }
     if (fields.date && fields.date.trim()) {
       lines.push("Дата и время: " + fields.date.trim());
     }
@@ -39,6 +71,8 @@
 
   var Booking = {
     CONFIG: CONFIG,
+    SERVICE_PRICES: SERVICE_PRICES,
+    getServicePrice: getServicePrice,
     isValidPhone: isValidPhone,
     buildBookingMessage: buildBookingMessage,
     buildWhatsAppLink: buildWhatsAppLink

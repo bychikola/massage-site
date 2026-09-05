@@ -65,6 +65,19 @@
   var formMessage = document.getElementById("formMessage");
   var copyBtn = document.getElementById("copyBtn");
   var copyOk = document.getElementById("copyOk");
+  var serviceHint = document.getElementById("bfServiceHint");
+  var serviceSelect = document.getElementById("bfService");
+
+  /* Подсказка с ценой при выборе услуги */
+  function updateServiceHint() {
+    var name = serviceSelect.value;
+    if (!name) { serviceHint.textContent = ""; return; }
+    var price = Booking.getServicePrice(name);
+    serviceHint.textContent = price !== null
+      ? "Стоимость: " + price + " ₽ — эта цена уйдёт Альбине в WhatsApp"
+      : "Цена не указана — Альбина уточнит стоимость в переписке";
+  }
+  serviceSelect.addEventListener("change", updateServiceHint);
 
   /* Быстрые контакты рядом с формой */
   document.getElementById("quickCall").href = telHref;
