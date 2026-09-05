@@ -7,8 +7,8 @@
   "use strict";
 
   var CONFIG = {
-    phoneDigits: "79000000000",          // ЗАМЕНИТЬ: номер мамы для WhatsApp
-    phoneDisplay: "+7 900 000-00-00",    // ЗАМЕНИТЬ: как номер показывается на сайте
+    phoneDigits: "79888350003",          // WhatsApp мамы: +7 988 835-00-03
+    phoneDisplay: "+7 988 835-00-03",    // как номер показывается на сайте
     address: "г. Москва, ул. Примерная, д. 1", // ЗАМЕНИТЬ: реальный адрес
     instagramUrl: "https://instagram.com/",    // ЗАМЕНИТЬ: ссылка Instagram
     vkUrl: "https://vk.com/"                   // ЗАМЕНИТЬ: ссылка VK

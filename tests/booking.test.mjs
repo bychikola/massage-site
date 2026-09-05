@@ -56,8 +56,14 @@ test("buildBookingMessage: необязательные поля пропуск�
   );
 });
 
-test("buildWhatsAppLink: корректная wa.me-ссылка с закодированным текстом", () => {
+test("buildWhatsAppLink: использует номер из CONFIG и URL-кодирует текст", () => {
   const link = buildWhatsAppLink("Привет, мир!");
-  assert.equal(link, "https://wa.me/79000000000?text=" + encodeURIComponent("Привет, мир!"));
+  // Сверяем не абсолютную строку, а то, что ссылка использует реальный CONFIG.phoneDigits
+  // и кодирует текст — так тест остаётся зелёным при смене номера.
+  assert.equal(
+    link,
+    "https://wa.me/" + CONFIG.phoneDigits + "?text=" + encodeURIComponent("Привет, мир!")
+  );
   assert.ok(link.startsWith("https://wa.me/"));
+  assert.ok(link.includes(CONFIG.phoneDigits));
 });
