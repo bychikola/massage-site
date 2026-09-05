@@ -20,7 +20,7 @@
 
 /* ===== Сброс ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; overflow-x: hidden; }
 body {
   font-family: var(--font-body);
   font-size: 16px;
@@ -28,6 +28,9 @@ body {
   color: var(--ink);
   background: var(--cream);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -278,7 +281,7 @@ a { color: inherit; }
 @media (max-width: 900px) {
   .hero { padding-top: 32px; }
   .hero__inner { grid-template-columns: 1fr; gap: 32px; }
-  .hero__leaf { width: 70vw; left: auto; right: -80px; }
+  .hero__leaf { width: 70vw; left: auto; right: 0; opacity: .55; }
 }
 
 /* ===== Услуги ===== */
