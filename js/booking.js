@@ -9,7 +9,7 @@
   var CONFIG = {
     phoneDigits: "79888350003",          // WhatsApp мамы: +7 988 835-00-03
     phoneDisplay: "+7 988 835-00-03",    // как номер показывается на сайте
-    address: "г. Москва, ул. Примерная, д. 1", // ЗАМЕНИТЬ: реальный адрес
+    address: "с. Чикола, ул. А. Макоева, д. 10", // адрес мамы
     instagramUrl: "https://instagram.com/",    // ЗАМЕНИТЬ: ссылка Instagram
     vkUrl: "https://vk.com/"                   // ЗАМЕНИТЬ: ссылка VK
   };
