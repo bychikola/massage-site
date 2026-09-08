@@ -4,13 +4,37 @@
   /* ===== Мобильное меню ===== */
   var burger = document.getElementById("burger");
   var nav = document.getElementById("nav");
-  nav.inert = true; /* закрытое меню выпадает из фокус-навигации */
+  var navOverlay = document.getElementById("navOverlay");
+  var mobileNavMq = window.matchMedia("(max-width: 900px)");
+
+  function isMobileNav() { return mobileNavMq.matches; }
+
+  /* Шторка инертна только когда она закрыта НА МОБИЛЬНОМ.
+     На десктопе навигация всегда активна (inert заблокировал бы клики). */
+  nav.inert = isMobileNav();
 
   function setMenu(open) {
     nav.classList.toggle("nav--open", open);
-    nav.inert = !open;
+    nav.inert = !open && isMobileNav();
     burger.classList.toggle("burger--open", open);
     burger.setAttribute("aria-expanded", String(open));
+    navOverlay.classList.toggle("nav-overlay--visible", open);
+    document.body.classList.toggle("menu-open", open);
+    document.querySelector(".header").classList.toggle("header--menu-open", open);
+  }
+
+  /* Переход мобильный ↔ десктоп: закрыть шторку и снять блокировку прокрутки */
+  function onNavMqChange() {
+    if (isMobileNav()) {
+      nav.inert = !nav.classList.contains("nav--open");
+    } else {
+      setMenu(false);
+    }
+  }
+  if (mobileNavMq.addEventListener) {
+    mobileNavMq.addEventListener("change", onNavMqChange);
+  } else if (mobileNavMq.addListener) {
+    mobileNavMq.addListener(onNavMqChange);
   }
 
   burger.addEventListener("click", function () {
@@ -36,6 +60,30 @@
       setMenu(false);
       burger.focus();
     }
+  });
+
+  /* ===== Шапка: тень и уплотнение при прокрутке ===== */
+  var headerEl = document.querySelector(".header");
+  var headerTick = false;
+
+  function updateHeaderShadow() {
+    headerEl.classList.toggle("header--scrolled", window.scrollY > 8);
+    headerTick = false;
+  }
+
+  window.addEventListener("scroll", function () {
+    if (!headerTick) {
+      headerTick = true;
+      window.requestAnimationFrame(updateHeaderShadow);
+    }
+  }, { passive: true });
+  updateHeaderShadow();
+
+  /* Клик по затемнению и кнопке × закрывает шторку */
+  navOverlay.addEventListener("click", function () { setMenu(false); });
+  document.getElementById("navClose").addEventListener("click", function () {
+    setMenu(false);
+    burger.focus();
   });
 
   /* ===== Контакты из CONFIG (одно место для правок) ===== */
@@ -82,6 +130,85 @@
   /* Быстрые контакты рядом с формой */
   document.getElementById("quickCall").href = telHref;
   document.getElementById("quickWhatsApp").href = waHref;
+
+  /* ===== Система движения (редизайн) ===== */
+  var motionCfg = Motion.effectsConfig({
+    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    coarsePointer: window.matchMedia("(pointer: coarse)").matches,
+    viewportWidth: window.innerWidth
+  });
+
+  /* Плавающие частицы в hero (только десктоп с мышью) */
+  if (motionCfg.particles) {
+    var heroSection = document.querySelector(".hero");
+    var particleTotal = Motion.particleCountFor(window.innerWidth);
+    for (var pi = 0; pi < particleTotal; pi++) {
+      var dot = document.createElement("span");
+      dot.className = "particle";
+      dot.setAttribute("aria-hidden", "true");
+      var size = 4 + Math.floor(Math.random() * 4); /* 4–7px */
+      dot.style.width = size + "px";
+      dot.style.height = size + "px";
+      dot.style.left = (4 + Math.random() * 92) + "%";
+      dot.style.top = (8 + Math.random() * 80) + "%";
+      dot.style.animationDuration = (9 + Math.random() * 4) + "s";
+      dot.style.animationDelay = (Math.random() * 4) + "s";
+      heroSection.appendChild(dot);
+    }
+  }
+
+  /* Параллакс листа (только десктоп) */
+  if (motionCfg.parallax) {
+    var heroLeaf = document.querySelector(".hero__leaf");
+    var leafTick = false;
+    function updateLeaf() {
+      heroLeaf.style.transform = "translate3d(0," + Motion.parallaxShiftPx(window.scrollY, 0.2) + "px,0)";
+      leafTick = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!leafTick) {
+        leafTick = true;
+        window.requestAnimationFrame(updateLeaf);
+      }
+    }, { passive: true });
+  }
+
+  /* Каскадное появление карточек услуг */
+  if (motionCfg.stagger) {
+    var serviceCards = document.querySelectorAll(".services .card");
+    Array.prototype.forEach.call(serviceCards, function (card, i) {
+      card.classList.add("card--staggered");
+      card.style.animationDelay = Motion.staggerDelayMs(i, 60, 500) + "ms";
+    });
+  }
+
+  /* Докрутка цен до значения при появлении карточки */
+  var animatePrice = function (el) {
+    var target = parseInt(el.textContent.replace(/\D/g, ""), 10) || 0;
+    var startTs = null;
+    var DURATION = 1100;
+    function step(ts) {
+      if (startTs === null) { startTs = ts; }
+      var p = Math.min((ts - startTs) / DURATION, 1);
+      el.textContent = Math.round(target * Motion.easedProgress(p)) + " ₽";
+      if (p < 1) { window.requestAnimationFrame(step); }
+    }
+    window.requestAnimationFrame(step);
+  };
+
+  if (motionCfg.countUp && "IntersectionObserver" in window) {
+    var priceEls = document.querySelectorAll(".card__price");
+    var priceObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { return; }
+        priceObserver.unobserve(entry.target);
+        animatePrice(entry.target);
+      });
+    }, { threshold: 0.6 });
+    Array.prototype.forEach.call(priceEls, function (el) {
+      priceObserver.observe(el);
+    });
+  }
 
   function showError(text) {
     formError.textContent = text;

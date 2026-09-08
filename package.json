@@ -2,6 +2,10 @@
   "name": "massage-site",
   "private": true,
   "scripts": {
-    "test": "node --test tests/booking.test.mjs"
+    "test": "node --test tests/booking.test.mjs tests/fonts.test.mjs tests/motion.test.mjs",
+    "test:visual": "node --test tests/responsive.test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }
