@@ -1,3 +1,12 @@
+/* ===== Локальный шрифт заголовков ===== */
+@font-face {
+  font-family: "New Standard";
+  src: url("../fonts/newstandard.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== Дизайн-токены (палитра и шрифты из макета) ===== */
 :root {
   --gold: #CFAC58;
@@ -8,7 +17,7 @@
   --cream: #FAF6EC;
   --ink: #0A3F3A;
   --white: #FFFFFF;
-  --font-title: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-title: "New Standard", Georgia, "Times New Roman", serif;
   --font-script: "Great Vibes", "Segoe Script", cursive;
   --font-body: "Montserrat", "Segoe UI", Arial, sans-serif;
   --radius: 24px;
