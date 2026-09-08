@@ -96,7 +96,8 @@ a { color: inherit; }
   cursor: pointer;
   transition: transform .25s ease, color .25s ease, border-color .25s ease;
 }
-/* Слой ховер-заливки: прозрачный → цвет */
+/* Слой ховер-заливки: прозрачный → цвет.
+   z-index: -1 — под текстом кнопки, но над её фоном (кнопка — stacking context). */
 .btn::before {
   content: "";
   position: absolute;
@@ -104,6 +105,7 @@ a { color: inherit; }
   border-radius: inherit;
   opacity: 0;
   transition: opacity .25s ease;
+  z-index: -1;
   pointer-events: none;
 }
 .btn--outline::before { inset: 2px; } /* не закрывать контурную рамку */
