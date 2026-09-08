@@ -75,8 +75,12 @@ a { color: inherit; }
   opacity: .85;
 }
 
-/* ===== Кнопки ===== */
+/* ===== Кнопки =====
+   Плавность ховера: фон-заливка и тень — отдельные слои на opacity
+   (интерполируется GPU), а не смена background/box-shadow (репайнт и «прыжок»). */
 .btn {
+  position: relative;
+  z-index: 0; /* свой stacking context: теневой слой не уходит под фон секции */
   display: inline-block;
   font-family: var(--font-body);
   font-size: 14px;
@@ -90,16 +94,45 @@ a { color: inherit; }
   border-radius: 999px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: background-color .25s, color .25s, border-color .25s, transform .25s, box-shadow .25s;
+  transition: transform .25s ease, color .25s ease, border-color .25s ease;
 }
-.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+/* Слой ховер-заливки: прозрачный → цвет */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.btn--outline::before { inset: 2px; } /* не закрывать контурную рамку */
+/* Теневой слой под кнопкой */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  transition: opacity .25s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:hover::after { opacity: 1; }
 .btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 .btn--fill { background: var(--grad-gold-btn); color: var(--teal-deep); }
-.btn--fill:hover { background: var(--gold-deep); }
+.btn--fill::before { background: var(--gold-deep); }
+.btn--fill:hover::before { opacity: 1; }
 .btn--outline { background: transparent; color: var(--gold-text); border-color: var(--gold-text); }
-.btn--outline:hover { background: var(--gold); color: var(--teal-deep); }
+.btn--outline::before { background: var(--gold); }
+.btn--outline:hover::before { opacity: 1; }
+.btn--outline:hover { color: var(--teal-deep); }
+.btn--outline::after { content: none; } /* прозрачной кнопке тень не нужна */
 .btn--teal { background: linear-gradient(180deg, #0A5A52, #044E47); color: var(--white); }
-.btn--teal:hover { background: var(--teal-deep); }
+.btn--teal::before { background: var(--teal-deep); }
+.btn--teal:hover::before { opacity: 1; }
 
 /* ===== Фокус ===== */
 :focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 2px; }
@@ -468,6 +501,8 @@ body.menu-open { overflow: hidden; }
   box-shadow: none;
   transition: background-color .25s, color .25s, transform .25s;
 }
+/* У карточной кнопки своя плавная смена сплошных цветов — слои .btn не нужны */
+.card__btn::before, .card__btn::after { content: none; }
 .card:hover .card__btn { background: var(--teal); color: var(--white); }
 .card__btn:hover { transform: translateY(-2px); }
 
@@ -697,7 +732,8 @@ a.contact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-car
 .form-fallback[hidden] { display: none; }
 /* Кнопка «Скопировать текст» на белой карточке: тёмный контур вместо золотого (контраст AA) */
 .form-fallback .btn--outline { color: var(--teal-deep); border-color: var(--teal-deep); }
-.form-fallback .btn--outline:hover { background: var(--teal-deep); border-color: var(--teal-deep); color: var(--white); }
+.form-fallback .btn--outline::before { background: var(--teal-deep); }
+.form-fallback .btn--outline:hover { color: var(--white); }
 
 @media (max-width: 900px) {
   .booking__inner { grid-template-columns: 1fr; gap: 40px; }
@@ -721,6 +757,7 @@ a.contact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-car
   .card--staggered { animation: none; }
   .particle { display: none; }
   .btn, .card, .social, a.contact-card, .header__inner, .nav, .nav-overlay { transition: none; }
+  .btn::before, .btn::after { transition: none; }
   .btn:hover, .card:hover, .social:hover, a.contact-card:hover { transform: none; }
 }
 
