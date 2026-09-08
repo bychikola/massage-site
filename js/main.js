@@ -112,6 +112,48 @@
   document.getElementById("quickCall").href = telHref;
   document.getElementById("quickWhatsApp").href = waHref;
 
+  /* ===== Система движения (редизайн) ===== */
+  var motionCfg = Motion.effectsConfig({
+    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    coarsePointer: window.matchMedia("(pointer: coarse)").matches,
+    viewportWidth: window.innerWidth
+  });
+
+  /* Плавающие частицы в hero (только десктоп с мышью) */
+  if (motionCfg.particles) {
+    var heroSection = document.querySelector(".hero");
+    var particleTotal = Motion.particleCountFor(window.innerWidth);
+    for (var pi = 0; pi < particleTotal; pi++) {
+      var dot = document.createElement("span");
+      dot.className = "particle";
+      dot.setAttribute("aria-hidden", "true");
+      var size = 4 + Math.floor(Math.random() * 4); /* 4–7px */
+      dot.style.width = size + "px";
+      dot.style.height = size + "px";
+      dot.style.left = (4 + Math.random() * 92) + "%";
+      dot.style.top = (8 + Math.random() * 80) + "%";
+      dot.style.animationDuration = (9 + Math.random() * 4) + "s";
+      dot.style.animationDelay = (Math.random() * 4) + "s";
+      heroSection.appendChild(dot);
+    }
+  }
+
+  /* Параллакс листа (только десктоп) */
+  if (motionCfg.parallax) {
+    var heroLeaf = document.querySelector(".hero__leaf");
+    var leafTick = false;
+    function updateLeaf() {
+      heroLeaf.style.transform = "translate3d(0," + Motion.parallaxShiftPx(window.scrollY, 0.2) + "px,0)";
+      leafTick = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!leafTick) {
+        leafTick = true;
+        window.requestAnimationFrame(updateLeaf);
+      }
+    }, { passive: true });
+  }
+
   function showError(text) {
     formError.textContent = text;
     formError.hidden = false;
