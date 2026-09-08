@@ -10,7 +10,7 @@
 /* ===== Дизайн-токены ===== */
 :root {
   --gold: #CFAC58;
-  --gold-text: #D1AB56;
+  --gold-text: #DCC27F; /* осветлён для контраста AA на градиенте hero (§8 спеки) */
   --gold-deep: #C9A654;
   --teal: #044E47;
   --teal-deep: #033631;
