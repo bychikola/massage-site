@@ -154,6 +154,43 @@
     }, { passive: true });
   }
 
+  /* Каскадное появление карточек услуг */
+  if (motionCfg.stagger) {
+    var serviceCards = document.querySelectorAll(".services .card");
+    Array.prototype.forEach.call(serviceCards, function (card, i) {
+      card.classList.add("card--staggered");
+      card.style.animationDelay = Motion.staggerDelayMs(i, 60, 500) + "ms";
+    });
+  }
+
+  /* Докрутка цен до значения при появлении карточки */
+  var animatePrice = function (el) {
+    var target = parseInt(el.textContent.replace(/\D/g, ""), 10) || 0;
+    var startTs = null;
+    var DURATION = 1100;
+    function step(ts) {
+      if (startTs === null) { startTs = ts; }
+      var p = Math.min((ts - startTs) / DURATION, 1);
+      el.textContent = Math.round(target * Motion.easedProgress(p)) + " ₽";
+      if (p < 1) { window.requestAnimationFrame(step); }
+    }
+    window.requestAnimationFrame(step);
+  };
+
+  if (motionCfg.countUp && "IntersectionObserver" in window) {
+    var priceEls = document.querySelectorAll(".card__price");
+    var priceObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { return; }
+        priceObserver.unobserve(entry.target);
+        animatePrice(entry.target);
+      });
+    }, { threshold: 0.6 });
+    Array.prototype.forEach.call(priceEls, function (el) {
+      priceObserver.observe(el);
+    });
+  }
+
   function showError(text) {
     formError.textContent = text;
     formError.hidden = false;
