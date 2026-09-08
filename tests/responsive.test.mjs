@@ -53,3 +53,20 @@ test("форма открывает wa.me-ссылку с услугой и це
   assert.ok(decodeURIComponent(opened).includes("+7 900 123-45-67"));
   await page.close();
 });
+
+test("шторка меню открывается бургером, закрывается оверлеем и крестиком (375px)", async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 812 } });
+  await page.goto(url);
+  await page.click("#burger");
+  const opened = await page.evaluate(() => document.getElementById("nav").classList.contains("nav--open"));
+  assert.equal(opened, true, "шторка не открылась");
+  await page.screenshot({ path: path.join(previewDir, "redesign-375-menu.png") });
+  await page.click(".nav-overlay", { position: { x: 10, y: 400 } });
+  const closedByOverlay = await page.evaluate(() => !document.getElementById("nav").classList.contains("nav--open"));
+  assert.equal(closedByOverlay, true, "шторка не закрылась по оверлею");
+  await page.click("#burger");
+  await page.click("#navClose");
+  const closedByBtn = await page.evaluate(() => !document.getElementById("nav").classList.contains("nav--open"));
+  assert.equal(closedByBtn, true, "шторка не закрылась по крестику");
+  await page.close();
+});

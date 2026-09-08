@@ -6,11 +6,16 @@
   var nav = document.getElementById("nav");
   nav.inert = true; /* закрытое меню выпадает из фокус-навигации */
 
+  var navOverlay = document.getElementById("navOverlay");
+
   function setMenu(open) {
     nav.classList.toggle("nav--open", open);
     nav.inert = !open;
     burger.classList.toggle("burger--open", open);
     burger.setAttribute("aria-expanded", String(open));
+    navOverlay.classList.toggle("nav-overlay--visible", open);
+    document.body.classList.toggle("menu-open", open);
+    document.querySelector(".header").classList.toggle("header--menu-open", open);
   }
 
   burger.addEventListener("click", function () {
@@ -36,6 +41,30 @@
       setMenu(false);
       burger.focus();
     }
+  });
+
+  /* ===== Шапка: тень и уплотнение при прокрутке ===== */
+  var headerEl = document.querySelector(".header");
+  var headerTick = false;
+
+  function updateHeaderShadow() {
+    headerEl.classList.toggle("header--scrolled", window.scrollY > 8);
+    headerTick = false;
+  }
+
+  window.addEventListener("scroll", function () {
+    if (!headerTick) {
+      headerTick = true;
+      window.requestAnimationFrame(updateHeaderShadow);
+    }
+  }, { passive: true });
+  updateHeaderShadow();
+
+  /* Клик по затемнению и кнопке × закрывает шторку */
+  navOverlay.addEventListener("click", function () { setMenu(false); });
+  document.getElementById("navClose").addEventListener("click", function () {
+    setMenu(false);
+    burger.focus();
   });
 
   /* ===== Контакты из CONFIG (одно место для правок) ===== */
