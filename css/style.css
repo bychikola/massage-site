@@ -33,9 +33,6 @@
   --shadow-card: 0 6px 18px rgba(3, 54, 49, .08);
   --shadow-card-hover: 0 16px 36px rgba(3, 54, 49, .16);
   --shadow-hero: 0 18px 44px rgba(3, 54, 49, .18);
-  /* Устаревшие алиасы для ещё не обновлённых блоков секций — удалить после Task 8 */
-  --shadow: 0 12px 32px rgba(3, 54, 49, .14);
-  --shadow-soft: 0 6px 18px rgba(3, 54, 49, .10);
   --container: 1200px;
 }
 
@@ -486,7 +483,7 @@ body.menu-open { overflow: hidden; }
 }
 
 /* ===== Обо мне ===== */
-.about { background: var(--teal); color: var(--white); }
+.about { background: var(--grad-teal); color: var(--white); }
 .about__inner {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -494,14 +491,24 @@ body.menu-open { overflow: hidden; }
   gap: 56px;
 }
 .about__media {
-  padding: 16px;
-  background: var(--gold);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  padding: 8px;
+  background: var(--grad-gold-frame);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-hero);
   max-width: 420px;
+  position: relative;
+}
+.about__media::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
 }
 .about__photo {
-  border-radius: calc(var(--radius) - 8px);
+  border-radius: 13px;
   width: 100%;
   height: auto;
   aspect-ratio: 3 / 4;
@@ -522,7 +529,7 @@ body.menu-open { overflow: hidden; }
 }
 
 /* ===== Контакты ===== */
-.contacts { background: var(--gold); }
+.contacts { background: var(--cream); }
 .contacts__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -532,7 +539,8 @@ body.menu-open { overflow: hidden; }
 }
 .contact-card {
   background: var(--white);
-  border-radius: var(--radius-sm);
+  border: 1px solid rgba(4, 78, 71, .08);
+  border-radius: var(--radius-card);
   padding: 32px 24px;
   text-align: center;
   text-decoration: none;
@@ -540,11 +548,18 @@ body.menu-open { overflow: hidden; }
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  box-shadow: var(--shadow-soft);
-  transition: transform .25s, box-shadow .25s;
+  box-shadow: var(--shadow-card);
+  transition: transform .3s ease, box-shadow .3s ease;
 }
-a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.contact-card__icon { width: 34px; height: 34px; color: var(--teal); }
+a.contact-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-hover); }
+.contact-card__icon {
+  width: 56px;
+  height: 56px;
+  padding: 11px;
+  border-radius: 50%;
+  background: rgba(4, 78, 71, .08);
+  color: var(--teal);
+}
 .contact-card__label {
   font-size: 12px;
   font-weight: 600;
@@ -556,7 +571,7 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .contact-card__value {
   font-family: var(--font-title);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--teal);
 }
 .contacts__social {
@@ -583,13 +598,20 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 
 /* ===== Подвал ===== */
 .footer {
-  background: var(--teal-deep);
+  background: var(--grad-teal);
   color: rgba(255, 255, 255, .85);
   padding: 40px 0;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom));
   text-align: center;
 }
 .footer__inner { display: flex; flex-direction: column; gap: 10px; }
-.footer__brand { font-family: var(--font-title); font-size: 20px; letter-spacing: .06em; color: var(--gold-text); }
+.footer__brand {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--gold-text);
+}
 .footer__contacts { font-size: 14px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .footer__contacts a { color: var(--gold-text); text-decoration: none; }
 .footer__contacts a:hover { text-decoration: underline; }
@@ -608,16 +630,22 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .booking__quick { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
 .booking__form {
   background: var(--white);
-  border-radius: var(--radius);
+  border-radius: var(--radius-panel);
   padding: 40px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-hero);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .field--wide { grid-column: 1 / -1; }
-.field__label { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--teal); }
+.field__label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
 .field__req { color: var(--gold-deep); }
 .field__hint {
   font-size: 14px;
@@ -630,8 +658,8 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   font-size: 15px;
   color: var(--ink);
   background: var(--cream);
-  border: 1px solid rgba(4, 78, 71, .18);
-  border-radius: 10px;
+  border: 1.5px solid rgba(4, 78, 71, .16);
+  border-radius: var(--radius-field);
   padding: 14px 16px;
   width: 100%;
   transition: border-color .25s, box-shadow .25s;
@@ -639,11 +667,11 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .field__input:focus {
   outline: none;
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(4, 78, 71, .15);
+  box-shadow: 0 0 0 3px rgba(4, 78, 71, .14);
 }
 .field__input::placeholder { color: rgba(10, 63, 58, .45); }
 .form-error { grid-column: 1 / -1; color: #A03C2E; font-size: 14px; }
-.booking__submit { grid-column: 1 / -1; }
+.booking__submit { grid-column: 1 / -1; padding: 18px 34px; }
 .form-fallback {
   grid-column: 1 / -1;
   border-top: 1px dashed rgba(4, 78, 71, .25);
@@ -658,20 +686,24 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   font-family: ui-monospace, Consolas, monospace;
   font-size: 13px;
   background: var(--cream);
-  border-radius: 10px;
+  border-radius: var(--radius-field);
   padding: 14px;
   width: 100%;
   white-space: pre-wrap;
   word-break: break-word;
 }
 .form-fallback__ok { font-size: 13px; color: var(--teal); font-weight: 600; }
+/* Скрывать фолбэк формы, пока не отправлена заявка (display:flex перебивает атрибут hidden) */
+.form-fallback[hidden] { display: none; }
+/* Кнопка «Скопировать текст» на белой карточке: тёмный контур вместо золотого (контраст AA) */
+.form-fallback .btn--outline { color: var(--teal-deep); border-color: var(--teal-deep); }
+.form-fallback .btn--outline:hover { background: var(--teal-deep); border-color: var(--teal-deep); color: var(--white); }
+
 @media (max-width: 900px) {
   .booking__inner { grid-template-columns: 1fr; gap: 40px; }
   .booking__title { text-align: center; }
   .booking__form { grid-template-columns: 1fr; padding: 28px 22px; }
 }
-/* Скрывать фолбэк формы, пока не отправлена заявка (display:flex перебивает атрибут hidden) */
-.form-fallback[hidden] { display: none; }
 
 /* ===== Появление секций при скролле ===== */
 .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
