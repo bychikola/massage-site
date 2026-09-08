@@ -7,7 +7,7 @@
   font-display: swap;
 }
 
-/* ===== Дизайн-токены (палитра и шрифты из макета) ===== */
+/* ===== Дизайн-токены ===== */
 :root {
   --gold: #CFAC58;
   --gold-text: #D1AB56;
@@ -21,7 +21,19 @@
   --font-script: "Great Vibes", "Segoe Script", cursive;
   --font-body: "Montserrat", "Segoe UI", Arial, sans-serif;
   --radius: 24px;
+  --radius-card: 16px;
+  --radius-panel: 20px;
   --radius-sm: 14px;
+  --radius-field: 10px;
+  --grad-teal: linear-gradient(150deg, #07574E 0%, #044E47 55%, #033631 100%);
+  --grad-gold-btn: linear-gradient(180deg, #D9BC72, #CFAC58);
+  --grad-gold-frame: linear-gradient(160deg, #DCBE76, #C9A654);
+  --grad-hero-bg: linear-gradient(180deg, #FAF6EC, #F3ECDA);
+  --grad-line: linear-gradient(90deg, transparent, #CFAC58, transparent);
+  --shadow-card: 0 6px 18px rgba(3, 54, 49, .08);
+  --shadow-card-hover: 0 16px 36px rgba(3, 54, 49, .16);
+  --shadow-hero: 0 18px 44px rgba(3, 54, 49, .18);
+  /* Устаревшие алиасы для ещё не обновлённых блоков секций — удалить после Task 8 */
   --shadow: 0 12px 32px rgba(3, 54, 49, .14);
   --shadow-soft: 0 6px 18px rgba(3, 54, 49, .10);
   --container: 1200px;
@@ -37,6 +49,7 @@ body {
   color: var(--ink);
   background: var(--cream);
   -webkit-font-smoothing: antialiased;
+  font-synthesis: none; /* New Standard только Regular — запрет жирного на глаз */
   overflow-x: hidden;
   width: 100%;
   position: relative;
@@ -50,7 +63,7 @@ a { color: inherit; }
 .section-title {
   font-family: var(--font-title);
   font-size: clamp(30px, 4vw, 44px);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -82,14 +95,14 @@ a { color: inherit; }
   cursor: pointer;
   transition: background-color .25s, color .25s, border-color .25s, transform .25s, box-shadow .25s;
 }
-.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
 .btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
-.btn--fill { background: var(--gold); color: var(--teal-deep); border-color: var(--gold); }
-.btn--fill:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
-.btn--outline { background: transparent; color: var(--gold); border-color: var(--gold); }
+.btn--fill { background: var(--grad-gold-btn); color: var(--teal-deep); }
+.btn--fill:hover { background: var(--gold-deep); }
+.btn--outline { background: transparent; color: var(--gold-text); border-color: var(--gold-text); }
 .btn--outline:hover { background: var(--gold); color: var(--teal-deep); }
-.btn--teal { background: var(--teal); color: var(--white); border-color: var(--teal); }
-.btn--teal:hover { background: var(--teal-deep); border-color: var(--teal-deep); }
+.btn--teal { background: linear-gradient(180deg, #0A5A52, #044E47); color: var(--white); }
+.btn--teal:hover { background: var(--teal-deep); }
 
 /* ===== Фокус ===== */
 :focus-visible { outline: 3px solid var(--gold-deep); outline-offset: 2px; }
