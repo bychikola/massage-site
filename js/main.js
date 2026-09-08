@@ -4,18 +4,37 @@
   /* ===== Мобильное меню ===== */
   var burger = document.getElementById("burger");
   var nav = document.getElementById("nav");
-  nav.inert = true; /* закрытое меню выпадает из фокус-навигации */
-
   var navOverlay = document.getElementById("navOverlay");
+  var mobileNavMq = window.matchMedia("(max-width: 900px)");
+
+  function isMobileNav() { return mobileNavMq.matches; }
+
+  /* Шторка инертна только когда она закрыта НА МОБИЛЬНОМ.
+     На десктопе навигация всегда активна (inert заблокировал бы клики). */
+  nav.inert = isMobileNav();
 
   function setMenu(open) {
     nav.classList.toggle("nav--open", open);
-    nav.inert = !open;
+    nav.inert = !open && isMobileNav();
     burger.classList.toggle("burger--open", open);
     burger.setAttribute("aria-expanded", String(open));
     navOverlay.classList.toggle("nav-overlay--visible", open);
     document.body.classList.toggle("menu-open", open);
     document.querySelector(".header").classList.toggle("header--menu-open", open);
+  }
+
+  /* Переход мобильный ↔ десктоп: закрыть шторку и снять блокировку прокрутки */
+  function onNavMqChange() {
+    if (isMobileNav()) {
+      nav.inert = !nav.classList.contains("nav--open");
+    } else {
+      setMenu(false);
+    }
+  }
+  if (mobileNavMq.addEventListener) {
+    mobileNavMq.addEventListener("change", onNavMqChange);
+  } else if (mobileNavMq.addListener) {
+    mobileNavMq.addListener(onNavMqChange);
   }
 
   burger.addEventListener("click", function () {

@@ -70,3 +70,31 @@ test("шторка меню открывается бургером, закры�
   assert.equal(closedByBtn, true, "шторка не закрылась по крестику");
   await page.close();
 });
+
+test("на десктопе кнопки шапки кликабельны (навигация по якорю)", async () => {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await page.goto(url);
+  await page.click(".nav__cta");
+  await page.waitForTimeout(500);
+  const hash = await page.evaluate(() => location.hash);
+  assert.equal(hash, "#booking", "клик по «Записаться» не сработал");
+  await page.close();
+});
+
+test("после открытия шторки и расширения окна до десктопа меню закрывается и скролл разблокирован", async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 812 } });
+  await page.goto(url);
+  await page.click("#burger");
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.waitForTimeout(600);
+  const state = await page.evaluate(() => ({
+    navOpen: document.getElementById("nav").classList.contains("nav--open"),
+    menuOpen: document.body.classList.contains("menu-open"),
+    navInert: document.getElementById("nav").inert
+  }));
+  assert.deepEqual(state, { navOpen: false, menuOpen: false, navInert: false });
+  await page.click(".nav__cta");
+  await page.waitForTimeout(300);
+  assert.equal(await page.evaluate(() => location.hash), "#booking");
+  await page.close();
+});

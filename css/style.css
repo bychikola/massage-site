@@ -111,14 +111,14 @@ a { color: inherit; }
   border-bottom: 1px solid rgba(207, 172, 88, .4);
   transition: box-shadow .3s ease;
 }
-/* Стекло на ::before — иначе backdrop-filter сломал бы position:fixed у вложенной шторки */
+/* Почти непрозрачный крем на ::before — backdrop-filter убран: blur давал
+   дёрганую анимацию наведения и перехватывал перерисовки шапки (§3 спеки
+   допускает «просто плотнее фон без blur»). */
 .header::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(250, 246, 236, .85);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(250, 246, 236, .92);
   z-index: -1;
 }
 .header--scrolled { box-shadow: 0 4px 20px rgba(3, 54, 49, .10); }
